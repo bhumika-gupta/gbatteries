@@ -323,6 +323,7 @@ function print_mismatched(cell) {
     }
 }
 
+// INPUT FEATURE NEXT STEPS:
 /*function form_num_rows() {
     var numRows = parseInt(document.getElementById("num-row").value);
     
@@ -376,14 +377,3 @@ window.onload = find_mismatch(2);
 window.onload = find_mismatch(3);
 
 
-
-
-/*$('#myTabs a').click(function (e) {
-    e.preventDefault()
-    $(this).tab('show')
-  }) */
-
-//$('#myTabs a[href="#home-tab-pane"]').tab('show') // Select tab by name
-//$('#myTabs a:first').tab('show') // Select first tab
-//$('#myTabs a:last').tab('show') // Select last tab
-//$('#myTabs li:eq(2) a').tab('show') // Select third tab (0-indexed) 
