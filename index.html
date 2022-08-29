@@ -1,256 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <link href="style.css" rel="stylesheet" type="text/css" />
-    <script type= "text/javascript" src="main.js"></script>
-</head>
-<body onload="find_rate_start_to_finish()">
-    
-    <h1>GBatteries</h1>
-
-    <h3>Data about cells from start to finish </h3>
-    <br>
-    <h4>Total voltage change:</h4>
-    <br>
-    <p id="volt-one-change-print"></p><br>
-
-    <p class="volt-one-change"></p>
-    
-    <p id="volt-two-change-print"></p><br>
-    <p id="volt-three-change-print"></p>
-    <br>
-    <h4>Average rate of change:</h4>
-    <p id="rate-one-print"></p><br>
-    <p id="rate-two-print"></p><br>
-    <p id="rate-three-print"></p>
-    <br>
-
-    <h3>Cells that did not match configuration: </h3>
-    <br>
-    <h4 id="mismatched-cell-print"></h4>
-    <p id="mismatched-data-print"></p>
-
-    <script src="main.js"></script>
-    <script>
-        find_rate_start_to_finish()   
-        </script>
-    <script type="text/javascript">
-         find_rate_start_to_finish()   
-      </script>
-</body>
-
-
-
-
-</html> -->
-<!-- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <link href="style.css" rel="stylesheet" type="text/css" />
-</head>
-<body onload="find_rate_of_discharge(1, 1660869762, 1660869761); find_rate_start_to_finish(); add_to_mismatched(cell, t1, t2); find_mismatch(config, cell); print_mismatched(); ">
-    <h1>GBatteries</h1>
-
-    <h3>Data about cells from start to finish </h3>
-    <br>
-    <h4>Total voltage change:</h4>
-    <br>
-    <p id="volt-one-change-print"></p><br>
-    
-    <p id="volt-two-change-print"></p><br>
-    <p id="volt-three-change-print"></p>
-    <br>
-    <h4>Average rate of change:</h4>
-    <p id="rate-one-print"></p><br>
-    <p id="rate-two-print"></p><br>
-    <p id="rate-three-print"></p>
-    <br>
-
-
-
-    <h3>Cells that did not match configuration: </h3>
-    <br>
-    <h4 id="mismatched-cell-print"></h4>
-    <p id="mismatched-data-print"></p>
-
-    <script> 
-        const batteries = [
-        [1660869761,3.48,3.38,3.30,110],
-        [1660869762,3.47,3.38,3.29,110],
-        [1660869763,3.45,3.37,3.29,110],
-        [1660869764,3.45,3.37,3.28,110],
-        [1660869765,3.45,3.37,3.28,110],
-        [1660869766,3.46,3.36,3.28,110],
-        [1660869767,3.43,3.36,3.30,111],
-        [1660869768,3.42,3.36,3.30,110],
-        [1660869769,3.41,3.36,3.30,110],
-        [1660869770,3.40,3.35,3.30,110],
-        [1660869771,3.39,3.35,3.30,110],
-        [1660869772,3.38,3.35,3.30,110],
-    ]
-    
-    // time stamp, cell 1 voltage, cell 2 voltage, cell 3 voltage, balancing configuration
-    /*let rateOfDischarge;
-    
-    for (let i = 0; i < batteries.length; i++) {
-        for (let k = 1; k < (batteries[i].length - 1); k++) {
-            if (batteries[i][k] > batteries[i+1][k]) { // cell "k" is discharging
-                rateOfDischarge = (batteries[i][k] - batteries[i+1][k]) / (batteries[i+1][0] - batteries[i][0]);
-                let string = "The rate of discharge of Cell " + k + " is " + rateOfDischarge + ".";
-                // let string = "Cell " + k + "\''s rate of discharge is " + rateOfDischarge;
-                // let string = 'Cell ${k}\'s rate of discharge is ${rateOfDischarge}';
-                document.getElementById("test-print").innerHTML = string;
-            }
-    
-        }
-    }*/
-    
-    // mini function to find rate of discharge
-    function find_rate_of_discharge(cell, timeTwo, timeOne) {
-        // subtract the last timestamp cell voltage from first timestamp cell voltage, for each cell
-        // subtract the two times
-        // divide those two calculations
-        let voltDifference = batteries[timeTwo][cell] - batteries[timeOne][cell];
-        let timeDifference = batteries[timeTwo][0] - batteries[timeOne][0];
-        let rateOfDischarge = voltDifference / timeDifference;
-    }
-    
-    // function to calculate rate of discharge from start -> finish
-    function find_rate_start_to_finish() {
-        // iterate through the cells for first & last timestamp
-        for (let cellNum = 1; cellNum < 4; cellNum++) {
-            find_rate_of_discharge(cellNum, batteries.length, 0);
-    
-            // print out the volt change, avg rate of change
-            if (cellNum == 1) {
-                let stringC1Volt = "Cell 1: " + voltDifference + " V";
-            } else if (cellNum == 2) {
-                let stringC2Volt = "Cell 2: " + voltDifference + " V";
-            } else if (cellNum == 3) {
-                let stringC3Volt = "Cell 3: " + voltDifference + " V";
-            } else {
-            }
-        
-            if (cellNum == 1) {
-                let stringC1Rate = "Cell 1: " + rateOfDischarge + " V/s";
-            } else if (cellNum == 2) {
-                let stringC2Rate = "Cell 2: " + rateOfDischarge + " V";
-            } else if (cellNum == 3) {
-                let stringC3Rate = "Cell 3: " + rateOfDischarge + " V";
-            } else {
-            }
-            
-        }
-        document.getElementById("volt-one-change-print").innerHTML = stringC1Volt;
-        document.getElementById("volt-two-change-print").innerHTML = stringC2Volt;
-        document.getElementById("volt-three-change-print").innerHTML = stringC3Volt;
-    
-        document.getElementById("rate-one-print").innerHTML = stringC1Rate;
-        document.getElementById("rate-two-print").innerHTML = stringC2Rate;
-        document.getElementById("rate-three-print").innerHTML = stringC3Rate;
-    }
-    
-    // function to find mismatch between voltage changes and balancing config
-    //iterate through the timestamps and cells
-    //configuration.ToString()
-    //if (the cell in the next timestamp < the cell in the first timestamp) && configuration[] == 1, then it is discharging and is supposed to be discharging
-    //else if (the cell in the next timestamp >= the cell in the first timestamp) && configuration == 1, then it is not discharging and it's supposed to be discharging
-    // add to array of misconfigured cells
-    //else if (the cell in the next timestamp >= the cell in the first timestamp) && configuration == 0, then it's not discharging and it's not supposed to be discharging
-    
-    
-    // let mismatchedTimes; // need to have arrays for each cell:
-    let mismatchedOne;
-    let mismatchedTwo;
-    let mismatchedThree;
-    
-    function add_to_mismatched(cell, t1, t2) {
-        if (cell == 1) {
-            mismatchedOne.push(t1, t2);
-        } else if (cell == 2) {
-            mismatchedTwo.push(t1, t2);
-        } else if (cell == 3) {
-            mismatchedThree.push(t1, t2);
-        }
-    }
-    
-    function find_mismatch(config, cell) {
-        config.ToString();
-    
-        for (let tRow = 0; tRow < batteries.length, tRow++) {
-            let v2 = batteries[tRow+1][cell]; 
-            let v1 = batteries[tRow][cell];
-            
-            let t2 = batteries[tRow+1][0];
-            let t1 = batteries[tRow][0];
-    
-            if ((v2 < v1) && (config[cell-1] == 1)) { // should it be cell-1? - yes because assuming the indexing in a string is the same as it is in an array, 0 will be cell 1 in the config #
-                // discharging and supposed to be discharging
-            } else if ((v2 < v1) && (config[cell-1] == 0)) {
-                // discharging and NOT supposed to be discharging
-                // add to array of mismatched cells
-                add_to_mismatched(cell, t1, t2); // also need to account for if the tRow after also has a mismatched cell, so we don't need end up with repeating timestamps in the array
-            } else if ((v2 >= v1) && (config[cell-1] == 1)) {
-                // not discharging and supposed to be discharging
-                // add to array of mismatched cells
-                add_to_mismatched(cell, t1, t2); // also need to account for if the tRow after also has a mismatched cell, so we don't need end up with repeating timestamps in the array
-            } else if ((v2 >= v1) && (config[cell-1] == 0)) {
-                // not discharging and not supposed to be discharing
-            } else {
-    
-            }
-        }
-    }
-    
-    // displaying this data 
-    
-    // function to print mismatched cells
-    function print_mismatched() {
-        //let string = "Cells that did not match configuration: \n";
-        let stringData; 
-        for (let i = 1; i < 4; i++) {
-            if (i == 1) {
-                let stringCell = "Cell 1: ";
-                for (let k = 0; k < mismatchedOne.length; k++) {
-                    stringData += mismatchedOne[k] + "\n";
-                }
-            } else if (i == 2) {
-                let stringCell = "Cell 2: ";
-                for (let k = 0; k < mismatchedTwo.length; k++) {
-                    stringData += mismatchedTwo[k] + "\n";
-                }
-            } else if (i == 3) {
-                let stringCell = "Cell 3: ";
-                for (let k = 0; k < mismatchedThree.length; k++) {
-                    stringData += mismatchedThree[k] + "\n";
-                }
-            }
-        }
-    
-        document.getElementById("mismatched-cell-print").innerHTML = stringCell;
-        document.getElementById("mismatched-data-print").innerHTML = stringData;
-    }
-    
-    find_rate_start_to_finish();
-    find_mismatch(batteries[0][4], 1);
-    print_mismatched();
-    
-    
-    
-        </script>
-    <script src="main.js"></script>
-</body>
-
-
-
-
-</html> -->
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -266,20 +13,12 @@
 </head>
 
 <body>
-<!-- onload="myfunction()"-->
-    <!-- <div id="test-print"></div> -->
-
     <div class="container">
         <img src="logo.png">
     </div>
 
-    
-
-    
-    
-
     <div id="exTab2" class="container">	
-        <!-- INPUT 
+        <!-- INPUT FOR NEXT STEPS:
     input field for custom data - no need to validate input, assume it's correct
     <form id="input-row-form" action="#" onsubmit="return form_num_rows()">
             <label for="num-row">Enter how many timestamps you would like to enter data for: </label>
@@ -294,65 +33,40 @@
 
         <div id="result-data"></div>
 
-            
     </div>
-        
-
-        
         <hr></hr>
         <br/>
     -->
-        
-    
 
-
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                
-                <li class="nav-link active">
-                    <a href="#1" data-toggle="tab">Rate of Discharge: Input</a>
-                </li>
-                <li class="nav-link ">
-                    <a  href="#2" data-toggle="tab">Rate of Discharge: Start -> Finish</a>
-                </li>
-                <li class="nav-link">
-                    <a href="#3" data-toggle="tab">Cell Misconfiguration</a>
-                </li>
-            </ul>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-link active">
+                <a href="#1" data-toggle="tab">Rate of Discharge: Input</a>
+            </li>
+            <li class="nav-link ">
+                <a  href="#2" data-toggle="tab">Rate of Discharge: Start -> Finish</a>
+            </li>
+            <li class="nav-link">
+                <a href="#3" data-toggle="tab">Cell Misconfiguration</a>
+            </li>
+        </ul>
     
-                <div class="tab-content">
-                    <div class="tab-pane active" id="1">
-                        <form id="form1" action="#" onsubmit="return form_discharge()">
-                            <label for="cell">Enter a cell 1-3 you would like to calculate the rate of discharge for:</label>
-                            
-                            <input type="number" id="cell"></input>
-                            <br/>
-                            <label for="time"><br/>From the following list, enter 2 times (between 1660869761 and 1660869772) you would like to calculate the rate of discharge for, where the first field is the first time and the second field is for the second time:</label>
-                            <input type="number" id="time1"></input>
-                            <input type="number" id="time2"></input>
-                    
-                            <input type="submit" value="Calculate"></input> 
-                            <!--<ul>
-                                <li>1660869761</li>
-                                <li>1660869762</li>
-                                <li>1660869763</li>
-                                <li>1660869764</li>
-                                <li>1660869765</li>
-                                <li>1660869766</li>
-                                <li>1660869767</li>
-                                <li>1660869768</li>
-                                <li>1660869769</li>
-                                <li>1660869770</li>
-                                <li>1660869771</li>
-                                <li>1660869772</li>
-                            </ul>  -->
-                        </form>
+        <div class="tab-content">
+            <div class="tab-pane active" id="1">
+                <form id="form1" action="#" onsubmit="return form_discharge()">
+                    <label for="cell">Enter a cell 1-3 you would like to calculate the rate of discharge for:</label>
+                    <input type="number" id="cell"></input>
+                    <br/>
+                    <label for="time"><br/>From the following list, enter 2 times (between 1660869761 and 1660869772) you would like to calculate the rate of discharge for, where the first field is the first time and the second field is for the second time:</label>
+                    <input type="number" id="time1"></input>
+                    <input type="number" id="time2"></input>
+                    <input type="submit" value="Calculate"></input>       
+                </form>
                         
-                    
-                        <div id="rate-of-discharge"></div>
-                    </div>
-                  <div class="tab-pane" id="2">
-                    <div id="discharge-start-to-finish"></div>
-                    </div>
+                <div id="rate-of-discharge"></div>
+            </div>
+            <div class="tab-pane" id="2">
+                <div id="discharge-start-to-finish"></div>
+            </div>
                     
             <div class="tab-pane" id="3">
                 <div id="mismatch-one"></div>
@@ -361,114 +75,15 @@
                 <div id="mismatch-two-disc"></div>
                 <div id="mismatch-three"></div>
                 <div id="mismatch-three-disc"></div>
-                    </div>
-                </div>
-      </div>
-
-
-    
-
-    <!-- <div id="discharge-start-to-finish"></div> -->
-
-<!--    
-    
-    <br/>
-    <form id="form1" action="#" onsubmit="return form_discharge()">
-        <label for="cell">Enter a cell 1-3 you would like to calculate the rate of discharge for:</label>
-        
-        <input type="number" id="cell"></input>
-        <br/>
-        <input type="checkbox" id="cell1"></input>
-        <label for="cell1">Cell 1</label>
-
-        <input type="checkbox" id="cell2"></input>
-        <label for="cell2">Cell 2</label>
-
-        <input type="checkbox" id="cell3"></input>
-        <label for="cell3">Cell 3</label> 
-        
-        <label for="time"><br/>From the following list, enter 2 times you would like to calculate the rate of discharge for, where the first field is the first time and the second field is for the second time:</label>
-        <input type="number" id="time1"></input>
-        <input type="number" id="time2"></input>
-
-        <input type="submit" value="Calculate"></input> 
-        <ul>
-            <li>1660869761</li>
-            <li>1660869762</li>
-            <li>1660869763</li>
-            <li>1660869764</li>
-            <li>1660869765</li>
-            <li>1660869766</li>
-            <li>1660869767</li>
-            <li>1660869768</li>
-            <li>1660869769</li>
-            <li>1660869770</li>
-            <li>1660869771</li>
-            <li>1660869772</li>
-        </ul> 
-        <input type="checkbox" id="time1"></input>
-        <label for="time1">1660869761</label>
-
-        <input type="checkbox" id="time2"></input>
-        <label for="time2">1660869762</label>
-
-        <input type="checkbox" id="time3"></input>
-        <label for="time3">1660869763</label>
-
-        <input type="checkbox" id="time4"></input>
-        <label for="time4">1660869764</label>
-
-        <input type="checkbox" id="time5"></input>
-        <label for="time5">1660869765</label>
-
-        <input type="checkbox" id="time6"></input>
-        <label for="time6">1660869766</label>
-
-        <input type="checkbox" id="time7"></input>
-        <label for="time7">1660869767</label>
-
-        <input type="checkbox" id="time8"></input>
-        <label for="time8">1660869768</label>
-
-        <input type="checkbox" id="time9"></input>
-        <label for="time9">1660869769</label>
-
-        <input type="checkbox" id="time10"></input>
-        <label for="time10">1660869770</label>
-
-        <input type="checkbox" id="time11"></input>
-        <label for="time11">1660869771</label>
-
-        <input type="checkbox" id="time12"></input>
-        <label for="time12">1660869772</label>
-        
-        
-        <button type="submit" form="form1" value="Submit">Submit</button>
-    </form>
-    
-
-    <div id="rate-of-discharge">
+            </div>
+        </div>
     </div>
-    
-    <div id="mismatch-one"></div>
-    <div id="mismatch-one-disc"></div>
-    <div id="mismatch-two"></div>
-    <div id="mismatch-two-disc"></div>
-    <div id="mismatch-three"></div>
-    <div id="mismatch-three-disc"></div> -->
 
-    <!-- <h1>GBatteries</h1> -->
-    <!-- <script type="text/javascript">
-        document.getElementById("button").addEventListener('click', function () {
-            var text = document.getElementById('text');
-            text.value += ' after clicking';
-        });
-        </script> -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        <script type= "text/javascript" src="main.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type= "text/javascript" src="main.js"></script>
 </body>
 
 </html>
